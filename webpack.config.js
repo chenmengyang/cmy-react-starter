@@ -4,8 +4,8 @@ var HTMLWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 
 // 
-var DEVELOPMENT = process.env.ENV === 'development';
-var PRODUCTION = process.env.ENV === 'production';
+var DEVELOPMENT = process.env.NODE_ENV === 'development';
+var PRODUCTION = process.env.NODE_ENV === 'production';
 
 // define plugins, seperate production with development
 var plugins = PRODUCTION ?
@@ -22,15 +22,16 @@ var plugins = PRODUCTION ?
 ];
 
 plugins.push(new webpack.DefinePlugin({
-    DEVELOPMENT: JSON.stringify(DEVELOPMENT),
-    PRODUCTION: JSON.stringify(PRODUCTION)
+  'process.env': {
+    NODE_ENV: PRODUCTION ? JSON.stringify('production') : JSON.stringify('development')
+  }
 }));
 
 // define css loader for module
 const cssIdentifier = PRODUCTION ? '[hase:base64:10]' : '[path][name]---[local]';
 const cssLoader = PRODUCTION ? 
     ExtractTextPlugin.extract({
-        loader: 'css-loader?localIdentName='+cssIdentifier
+        use: ['css-loader?localIdentName='+cssIdentifier]
     })
     :
     ['style-loader','css-loader?localIdentName='+cssIdentifier]
