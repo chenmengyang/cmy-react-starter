@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ENV=development node devServer.js",
-    "build": "rm -rf ./dist/* && ENV=production webpack"
+    "start": "NODE_ENV=development node devServer.js",
+    "build": "rm -rf ./dist/* && NODE_ENV=production webpack"
   },
   "author": "Mengyang Chen",
   "license": "ISC",
